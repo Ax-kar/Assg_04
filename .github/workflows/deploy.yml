@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch full history to avoid shallow clone issues
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -30,10 +32,14 @@ jobs:
           huggingface-cli login --token $HF_ACCESS_TOKEN
           huggingface-cli repo create Axkars_Space -y || echo "Repo already exists."
           git lfs install
-          git init
           git config user.name "Ax-kar"
           git config user.email "axkzek69@gmail.com"
-          git remote set-url origin https://user:${{ secrets.HF_ACCESS_TOKEN }}@huggingface.co/spaces/Axkar/Axkars_Space
+          if git remote get-url origin; then
+            git remote set-url origin https://huggingface.co/spaces/Axkar/Axkars_Space
+          else
+            git remote add origin https://huggingface.co/spaces/Axkar/Axkars_Space
+          fi
+          git fetch --unshallow || echo "Repository is already fully fetched."
           git add .
           git commit -m "Deploy to Hugging Face Space" || echo "Nothing to commit."
           git push origin main --force
