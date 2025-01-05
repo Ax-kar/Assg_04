@@ -28,11 +28,13 @@ jobs:
         run: |
           pip install huggingface_hub
           huggingface-cli login --token $HF_ACCESS_TOKEN
-          # Skip repo creation if it already exists
-          huggingface-cli repo create Axkars_Space -y || echo "Repository already exists, skipping creation."
+          huggingface-cli repo create Axkars_Space -y || echo "Repo already exists."
           git lfs install
           git init
-          git remote set-url origin https://huggingface.co/spaces/Axkar/Axkars_Space
+          git config user.name Ax-kar
+          git config user.email axkzek69@gmail.com
+
+          git remote add origin https://huggingface.co/spaces/Axkar/Axkars_Space
           git add .
           git commit -m "Deploy to Hugging Face Space"
           git push origin main --force
