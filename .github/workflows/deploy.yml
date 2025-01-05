@@ -1,0 +1,32 @@
+name: Deploy to Hugging Face Space
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Deploy to Hugging Face
+        env:
+          HF_ACCESS_TOKEN: ${{ secrets.HF_ACCESS_TOKEN }}
+        run: |
+          pip install huggingface_hub
+          huggingface-cli login --token $HF_ACCESS_TOKEN
+          huggingface-cli repo create Axkars_Space --space-sdk gradio
+          huggingface-cli push-to-space --repo-id Axkar/Axkars_Space
