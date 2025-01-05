@@ -31,10 +31,13 @@ jobs:
           huggingface-cli repo create Axkars_Space -y || echo "Repo already exists."
           git lfs install
           git init
-          git config user.name Ax-kar
-          git config user.email axkzek69@gmail.com
-
-          git remote add origin https://huggingface.co/spaces/Axkar/Axkars_Space
+          git config user.name "Ax-kar"
+          git config user.email "axkzek69@gmail.com"
+          if git remote get-url origin; then
+            git remote set-url origin https://huggingface.co/spaces/Axkar/Axkars_Space
+          else
+            git remote add origin https://huggingface.co/spaces/Axkar/Axkars_Space
+          fi
           git add .
-          git commit -m "Deploy to Hugging Face Space"
+          git commit -m "Deploy to Hugging Face Space" || echo "Nothing to commit."
           git push origin main --force
