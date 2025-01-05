@@ -28,5 +28,10 @@ jobs:
         run: |
           pip install huggingface_hub
           huggingface-cli login --token $HF_ACCESS_TOKEN
-          huggingface-cli repo create Axkars_Space --space-sdk gradio
-          huggingface-cli push-to-space --repo-id Axkar/Axkars_Space
+          huggingface-cli repo create Axkars_Space -y
+          git lfs install
+          git init
+          git remote add origin https://huggingface.co/spaces/Axkar/Axkars_Space
+          git add .
+          git commit -m "Initial commit"
+          git push origin main --force
