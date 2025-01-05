@@ -1,3 +1,4 @@
 gradio
 transformers
 huggingface_hub
+tensorflow>=2.0
