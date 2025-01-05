@@ -33,11 +33,7 @@ jobs:
           git init
           git config user.name "Ax-kar"
           git config user.email "axkzek69@gmail.com"
-          if git remote get-url origin; then
-            git remote set-url origin https://huggingface.co/spaces/Axkar/Axkars_Space
-          else
-            git remote add origin https://huggingface.co/spaces/Axkar/Axkars_Space
-          fi
+          git remote set-url origin https://user:${{ secrets.HF_ACCESS_TOKEN }}@huggingface.co/spaces/Axkar/Axkars_Space
           git add .
           git commit -m "Deploy to Hugging Face Space" || echo "Nothing to commit."
           git push origin main --force
