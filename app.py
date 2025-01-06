@@ -1,10 +1,11 @@
-import gradio as gr
 from transformers import pipeline
+import gradio as gr
 
-summarizer = pipeline("summarization")
+sentiment_analyzer = pipeline("sentiment-analysis")
 
-def summarize(text):
-    return summarizer(text, max_length=130, min_length=30, do_sample=False)[0]['summary_text']
+def analyze_sentiment(text):
+    result = sentiment_analyzer(text)[0]
+    return f"Label: {result['label']}, Score: {result['score']:.2f}"
 
-iface = gr.Interface(fn=summarize, inputs="text", outputs="text")
+iface = gr.Interface(fn=analyze_sentiment, inputs="text", outputs="text")
 iface.launch()
